@@ -25,5 +25,10 @@ test users:
 
 2-)username:test222,password:test1234
 
-In order to raise up the application, clone the repository and execute "npm start" command. 
+In order to raise up the application :
+
+1-)clone the repository. 
+2-)install all dependencies via npm install command.
+3-) start the application via npm start command.
+
 
