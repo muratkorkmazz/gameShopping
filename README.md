@@ -7,14 +7,16 @@ The project has been created by a range of technologies. The technologies having
 
 As this project has not finished yet , there are a few thing to be completed (These are explained below ).
 
-1-) sending email to verify account  is executed through test-email app(Mailtrap) for development purpose. 
+1-) Sending email to verify account  is executed through test-email app(Mailtrap) for development purpose. 
 
-2-)payments to buy account is executed through test accounts(iyzico) for development purpose.
+2-) payments to buy account is executed through test accounts(iyzico) for development purpose.
 
-3-) a few cookies will be added to make application more secure.
+3-) A few cookies will be added to make application more secure.
 
-4-)For now , the images uploaded by clients are stored in the our server. It will be replaced with Amazon Cloud Services.
-    
+4-) For now , the images uploaded by clients are stored in the our server. It will be replaced with Amazon Cloud Services.
+
+5-) Most of the styling of pages has not completed yet. And the application doesen't support mobile devices for now.  
+
 As e-mail server has not finished yet , people can’t register to the application. So you can login via 2 test account specified in below. You can send messages between these 2 account concurrently, publish lists and more...
 
 test users:
