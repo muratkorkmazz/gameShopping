@@ -28,7 +28,9 @@ test users:
 In order to raise up the application :
 
 1-)clone the repository. 
+
 2-)install all dependencies via npm install command.
+
 3-) start the application via npm start command.
 
 
