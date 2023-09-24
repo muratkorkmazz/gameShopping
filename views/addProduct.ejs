@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css"
+        integrity="sha512-cyzxRvewl+FOKTtpBzYjW6x6IAYUCZy3sGP40hn+DQkqeluGRCax7qztK2ImL64SA+C7kVWdLI6wvdlStawhyw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+</head>
+
+
+<style>
+    img {
+
+        display: block;
+        /* This rule is very important, please don't ignore this */
+        max-width: 100%;
+    }
+
+    .main {
+        margin-top: 30px;
+        display: flex;
+        justify-content: space-around;
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        height: 600px;
+        border: 1px solid black;
+    }
+
+    #m1 {
+        margin-top: 100px;
+        width: 25%;
+        height: 60%;
+        border: 1px solid black;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        padding: 10px;
+    }
+
+    .grid1 {
+        width: 40%;
+        height: 50px;
+        border: 1px solid black;
+        border-radius: 30px;
+        display: flex;
+        justify-content: center;
+    }
+
+    #m2 {
+        margin-top: 100px;
+        width: 35%;
+        height: 60%;
+        border: 1px solid black;
+        display: flex;
+        overflow: scroll;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        padding: 10px;
+        margin-left: 80px;
+
+    }
+
+    .grid2 {
+        margin-bottom: 30px;
+        width: 30%;
+        height: 40px;
+        border: 1px solid black;
+        border-radius: 30px;
+        display: flex;
+        justify-content: center;
+    }
+
+    #m3 {
+        margin-top: 100px;
+        width: 25%;
+        height: 60%;
+        border: 1px solid black;
+        display: flex;
+        flex-wrap: wrap;
+        overflow: visible;
+        justify-content: space-around;
+        padding: 10px;
+        margin-left: 50px;
+
+    }
+
+    .grid3 {
+
+        width: 40%;
+        height: 50px;
+        border: 1px solid black;
+        border-radius: 30px;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+
+    }
+
+
+    .main2 {
+        margin-top: 30px;
+        display: flex;
+        justify-content: space-around;
+        width: 70%;
+        margin-left: auto;
+        margin-right: auto;
+        height: 600px;
+        border: 1px solid black;
+
+    }
+
+    #hideSecond {
+        cursor: pointer;
+        border: 2px solid black;
+        border-radius: 10px;
+        width: 40px;
+        height: 40px;
+        background-color: bisque;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+
+    .inputC {
+        width: 50%;
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+        justify-content: center;
+
+
+    }
+
+  
+</style>
+
+<body>
+
+
+    <%- include('layout/header.ejs') %>
+
+        <form id="form-game" method="post" enctype="multipart/form-data">
+
+            <select style="display: none;" value="" id="s1">
+                <option id="o1" value=""></option>
+            </select>
+            <select style="display: none;" value="" id="s2">
+                <option id="o2" value=""></option>
+            </select>
+            <select style="display: none;" value="" id="s3">
+                <option id="o3" value=""></option>
+            </select>
+
+
+
+            <div class="main">
+                <div id="m1">
+                </div>
+                <div id="m2">
+                    <!-- <div class="grid2" data-order="2"></div> -->
+                </div>
+                <div id="m3">
+                    <!-- <div class="grid3" data-order="3"></div> -->
+                </div>
+            </div>
+            <div class="main2" style="display: none;">
+
+                <div id="hideSecond"><i class="fa fa-reply"></i> </div>
+
+                <div class="inputC">
+
+
+
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="inputGroup-sizing-default">İlan başlığı</span>
+                        <input id="header" name="header" type="text" class="form-control" aria-label="Sizing example input"
+                            aria-describedby="inputGroup-sizing-default">
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Fiyat</span>
+                        <input id="price" name="price" type="number" class="form-control" aria-label="Sizing example input"
+                            aria-describedby="inputGroup-sizing-default">
+                    </div>
+                    <div class="input-group mb-3">
+                        <input name="image" type="file" class="form-control" id="imgFile">
+                        <label class="input-group-text" for="inputGroupFile02">Upload image-1</label>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input name="image" type="file" class="form-control" id="imgFile2">
+                        <label class="input-group-text" for="inputGroupFile02">Upload image-2</label>
+                    </div>
+
+
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Açıklama</span>
+                        <input id="expl" type="text" class="form-control" aria-label="Sizing example input"
+                            aria-describedby="inputGroup-sizing-default">
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Iban: </span>
+                        <input id="iban" type="text" class="form-control" aria-label="Sizing example input"
+                            aria-describedby="inputGroup-sizing-default">
+                    </div>
+
+                    <div>
+                        <button type="submit" class="btn btn-secondary"
+                            style="background-color:#489af1;">Gönder</button>
+                    </div>
+
+                         
+                         <div id="status" class="alert alert-secondary mt-3" role="alert" style="display: none;">
+
+                          </div>
+                </div>
+
+
+
+            </div>
+        </form>
+
+        <!-- Button trigger modal -->
+        <button id="toggleModal" type="button" class="btn btn-primary" data-bs-toggle="modal"
+            data-bs-target="#exampleModal" style="display: none;">
+            Launch demo modal
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <!-- <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div> -->
+                    <div class="modal-body" style=" text-align: center;">
+                        <img src="" id="preImg">
+                    </div>
+                    <div class="modal-footer">
+                        <button id="submitImg" data-number="" type="button" class="btn btn-secondary"
+                            data-bs-dismiss="modal">Ekle</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"
+            integrity="sha512-6lplKUSl86rUVprDIjiW8DuOniNX8UDoRATqZSds/7t6zCQZfaCe3e5zcGaQwxa8Kpn5RTM9Fvl3X2lLV4grPQ=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+            integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+            crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js"
+            integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa"
+            crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+            crossorigin="anonymous"></script>
+
+        <script>
+ 
+            // -------------------form submission
+
+                var form =document.getElementById("form-game");
+                form.addEventListener("submit",submit);
+
+
+
+                function submit(e){
+                       
+                  let alert=document.getElementById("status")
+
+                    e.preventDefault();
+                    const formData = new FormData();
+
+                    formData.append("gameName",o1.value);
+                    formData.append("gameServer",o2.value);
+                    formData.append("gameCategory",o3.value);
+                    formData.append("gameHeader",$("#header").val());
+                    formData.append("gamePrice",$("#price").val());
+                    formData.append("iban",$("#iban").val());
+                    formData.append("images",imgs.img1);
+                    formData.append("images",imgs.img2);
+                    formData.append("gameExpl",$("#expl").val());
+                    console.log(formData);
+
+                    $.ajax({
+                  url:"/ilan-ver",
+                  type:"POST",
+                    data:formData,
+                   processData:false,
+                   contentType:false,
+                     success:(data)=>{
+                        setTimeout(()=>{
+                       window.location.href="http://localhost:3000/"
+                        },1000)
+                        alert.innerHTML=`başarıyla gönderildi...`;
+                        alert.style.display="block";
+                      },
+                      error:(err)=>{
+                        console.log(err);
+                        alert.innerHTML=`Hata oluştu ...`;
+                        alert.style.display="block";
+                    
+                      }
+                       });
+
+                }
+
+
+
+
+
+
+
+        //---------------------------------------------------------------------------
+
+ 
+            document.getElementById("imgFile").addEventListener("change", modalImg);
+            document.getElementById("imgFile2").addEventListener("change", modalImg2);
+
+            let button = document.getElementById("toggleModal");
+            let img = document.getElementById("preImg");
+
+            var cropper = null;
+            // var cropper2 = null;
+
+            function modalImg(e) {
+                const reader = new FileReader();
+                let file = e.target.files[0];
+                button.dataset.number = "1";
+                reader.readAsDataURL(file);
+                reader.onload = function (data) {
+                    
+                    img.src = data.target.result;
+                    button.click();
+
+                    if (cropper != null) {
+                        console.log("hey");
+                        cropper.destroy();
+                    }
+                    cropper = new Cropper(img, {
+                        aspectRatio: 16 / 9,
+                        minContainerWidth: 480,
+                        minContainerHeight: 270,
+                        background: false
+                    });
+
+                };
+
+            }
+
+            function modalImg2(e) {
+                const reader = new FileReader();
+                let file = e.target.files[0];
+
+                console.log(e.target.files);
+
+                button.dataset.number = "2";
+                reader.readAsDataURL(file);
+                reader.onload = function (data) {
+                    img.src = data.target.result;
+                    button.click();
+                    if (cropper != null) {
+                         cropper.destroy();
+                    }
+                    cropper = new Cropper(img, {
+                        aspectRatio: 16 / 9,
+                        minContainerWidth: 480,
+                        minContainerHeight: 270,
+                        background: false
+                    });
+
+                };
+
+            }
+
+
+            document.getElementById("submitImg").addEventListener("click", getimgs);
+
+            let imgs = {
+                "img1": "",
+                "img2": ""
+            };
+
+
+            function getimgs(e) {
+
+     
+              
+
+                var canvas = cropper.getCroppedCanvas();
+                if (canvas == null) {
+                    alert("error occured");
+                    return;
+                }
+
+                canvas.toBlob((blob) => {
+                    if (blob === null) {
+                        alert("geçerli resim seçin");
+                        return
+                    }
+                    imgs[`img${button.dataset.number}`] = blob;
+                });
+            }
+
+
+            //-------------------------------------------------------------------------------------------------------------------
+            let url = {
+                "game": "",
+                "server": "",
+                "categories": ""
+            }
+
+
+        
+            
+let list = {
+                "metin2": {
+                    "servers": ["alnilam", "amber", "berilia", "columbia", "dolunay", "felis", "germania", "italy", "kehribar", "lynx", "portekiz", "pts", "şems", "tubul", "van", "all", "türkiye", "teutonia", "marmara", "anadolu", "arkadaşlar", "ayaz", "azrael", "bagjanamu", "bahar", "barbaros", "dandanakan", "ege", "ezel"],
+                    "categories": ["karakter", "yang-won", "silah", "zırh-kalkan-ayakkabı-kask", "küpe-bilezik-kolye", "nesne-market-ürünler", "simya", "diğer"]
+                },
+                "valorant": {
+                    "servers": ["valorant-tr", "valorant-euw"],
+                    "categories":["Hesap","Point"]
+                },
+                "League-Of-Legends":{
+                    "servers":["League-Of-Legends TR","League-Of-Legends-EUW","League-Of-Legends-West"],
+                    "categories":["Hesap","Point"]
+                },
+            }
+
+
+
+            var m1 = document.getElementById("m1");
+            var m2 = document.getElementById("m2");
+            var m3 = document.getElementById("m3");
+            var o1 = document.getElementById("o1");
+            var o2 = document.getElementById("o2");
+            var o3 = document.getElementById("o3");
+            document.getElementById("hideSecond").addEventListener("click", getFirstPart);
+
+            let main = document.querySelector(".main");
+            let main2 = document.querySelector(".main2");
+
+
+
+            function getBgc(data, div) {
+
+                divs = div.children
+                for (let i = 0; i < divs.length; i++) {
+                    let div = divs[i];
+                    if (div.dataset.data === data) {
+                        div.style.backgroundColor = "#489af1";
+                    } else {
+                        div.style.backgroundColor = "";
+                    }
+                }
+
+
+            }
+
+
+
+            getDefault();
+
+
+            function getDefault() {
+                Object.keys(list).forEach((data) => {
+                    let div = document.createElement("div");
+                    div.className = "grid1";
+                    div.innerHTML = `${data}`;
+                    div.dataset.data = data;
+                    div.addEventListener("click", postDefault);
+                    m1.append(div);
+                });
+            }
+
+
+            function postDefault(e) {
+                let game = e.target.dataset.data
+                url.game = game;
+                url.server = "";
+                url.categories = "";
+                m2.innerHTML = ``;
+                m3.innerHTML = ``;
+                o1.value = game;
+                o2.value = "";
+                o3.value = "";
+                getBgc(game, m1);
+                getServer();
+            }
+
+
+            function getServer() {
+                let servers = list[url.game]["servers"];
+                servers.forEach((data) => {
+                    let div = document.createElement("div");
+                    div.className = "grid2";
+                    div.innerHTML = `${data}`;
+                    div.dataset.data = `${data}`;
+                    div.addEventListener("click", postServer);
+                    m2.append(div);
+                })
+            }
+
+
+            function postServer(e) {
+
+                let server = e.target.dataset.data;
+                url.server = server;
+                o2.value = server;
+                m3.innerHTML = ``;
+                o3.value = "";
+                url.categories = "";
+                getCategories();
+                getBgc(server, m2);
+            }
+
+
+
+            function getCategories() {
+                let cat = list[url.game]["categories"];
+                if (cat) {
+                    cat.forEach((data) => {
+                        let div = document.createElement("div");
+                        div.className = "grid3";
+                        div.innerHTML = `${data}`;
+                        div.dataset.data = `${data}`;
+                        div.addEventListener("click", postCategories);
+                        m3.append(div);
+                    })
+                }
+                else {
+                    getSecondPart();
+                }
+            }
+
+            function postCategories(e) {
+                let cat = e.target.dataset.data;
+                url.categories = cat;
+                o3.value = cat;
+                getBgc(cat, m3);
+                getSecondPart();
+
+            }
+
+            function getSecondPart() {
+                main.style.display = "none";
+                main2.style.display = "block";
+            }
+            function getFirstPart() {
+                main.style.display = "flex";
+                main2.style.display = "none";
+            }
+
+
+
+        </script>
+
+
+</body>
+
+</html>

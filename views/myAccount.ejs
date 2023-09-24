@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<style>
+
+    body{
+        position: relative;
+    };
+
+    *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    .main{
+        width: 75%;
+        height: 500px;
+        border: 1px solid black;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 30px;
+        padding: 5px;
+    }
+
+    .main-ul{
+        width: 75%;
+        border: 1px solid red;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    li{
+    list-style: none;
+    }
+
+    p{
+        font-weight: bolder;
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    }
+
+    .profilePic{
+        width: 100px;
+        height: 100px;
+        margin-left: 10px;
+        border: 2px solid black;
+    }
+
+.li-image{
+    margin-top: 30px;
+    height: 150px;
+    border-top: 1px solid black;
+    display: flex;
+    align-items: center;
+}
+
+
+input[type="file"] {
+    display: none;
+}
+
+.custom-file-upload {
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.alt{
+    position:absolute;
+    top:20px;
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+
+}
+
+</style>
+<body>
+
+    <%- include('layout/header.ejs') %>
+
+    <div  id="alerts" class="alert alert-success alt" role="alert" style="display: none;"  >
+        Profil Fotoğrafı değiştirildi...
+      </div>
+    
+      <div id="alerte" class="alert alert-danger alt" role="alert" style="display: none;">
+        Profil fotoğrafı değiştirilirken hata oluştu...
+      </div>
+
+    <div class="main">
+
+        <h3>Kişisel Bilgilerim :</h3>
+        <ul class="main-ul">
+            <li>
+                <p>username :<%= account.username %></p>
+            </li>
+
+            <li>
+                <p>email : <%= account.email %></p>
+            </li>
+
+            <li class="li-image">
+                <span style=" font-weight: bolder;
+                font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;">Profile pic :</span><img class="profilePic" src="<%= account.profilePic %>">
+            
+            
+          
+            <label for="file-upload" class="custom-file-upload">
+                <span class="defaultLabel"> Değiştir <i class="	fa fa-pencil"> </i></span>
+                <span class="filenameSpan" style="display: none;"></span>
+            </label>
+            <input id="file-upload" type="file"/>
+          <a style="cursor: pointer;">  <i  id="fileLast" class="fa fa-download" style="display: none;"> </i></a>
+        
+        
+        </li>
+         
+
+
+
+        </ul>
+
+
+    </div>
+
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    
+    <script>
+  
+
+        var fileInput=document.getElementById("file-upload");
+        var fileLabel=document.querySelector(".custom-file-upload");  
+        var defaultLabel=document.querySelector(".defaultLabel");
+        var filename=document.querySelector(".filenameSpan");
+        var fileLast=document.getElementById("fileLast");
+        var profilePic=document.querySelector(".profilePic");        
+
+        fileLast.addEventListener("click",sendImage);
+        fileInput.addEventListener("change",uploadImage);
+
+
+        function uploadImage(e){
+            if(e.target.files[0].name){
+                defaultLabel.style.display="none";
+                filename.innerHTML=`${e.target.files[0].name}`;
+                filename.style.display="block";
+                fileLast.style.display="block";
+            }
+
+
+        }
+
+        function sendImage(e){
+
+            var file=fileInput.files[0];
+            const formData = new FormData();
+
+            formData.append("profilePic",file);
+
+            $.ajax({
+                  url:"http://localhost:3000/myAccount",
+                  type:"POST",
+                    data:formData,
+                   processData:false,
+                   contentType:false,
+                     success:(data)=>{
+                        const reader=new FileReader();
+                        reader.readAsDataURL(file);
+                        reader.onload=function(data){
+                            profilePic.src=data.target.result;
+                        }
+                            document.getElementById("alerts").style.display="block";
+                            
+                            setTimeout(()=>{
+                                document.getElementById("alerts").style.display="none";
+                            },1000)
+
+
+                      },
+                      error:(err)=>{
+                        console.log(err);
+                        document.getElementById("alerte").style.display="block";
+                            
+                            setTimeout(()=>{
+                                document.getElementById("alerts").style.display="none";
+                            },1000)
+                    
+                      }
+                       });
+        }
+
+
+
+    </script>
+</body>
+</html>

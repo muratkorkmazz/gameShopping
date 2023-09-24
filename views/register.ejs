@@ -1,0 +1,29 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <% if(payload){ %>
+        <p><%= payload.message %></p>
+        <% } %>
+
+    <form method="post" id="form">
+        <input type="hidden" name="_csrf"
+        value="<%= csrfToken %>">
+        <input id="email" name="email" type="email" placeholder="type an email" value="<%= payload.email %>">
+        <input id="username" name="username" type="text" placeholder="type an username" value="<%= payload.username %>">
+        <input id="password" name="password" type="password"  placeholder="type  a password" value="<%= payload.password %>">
+        <input id="confPassword" name="confPassword" type="password"  placeholder="confirm the password" value="<%= payload.confPassword %>">
+        <input type="submit">
+
+    </form>
+    
+
+    <script src="js/register.js"></script>
+</body>
+</html>

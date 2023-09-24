@@ -1,0 +1,142 @@
+*{
+    margin: 0;
+    padding: 0;
+
+}
+
+.a-tag{
+    text-decoration: none;
+    /* text-decoration-color:; */
+}
+
+.oyundanText{
+    font-size: 25px;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-weight: bold;
+    color: black;
+}
+
+body{
+background-color:whitesmoke;
+position: relative;
+
+}
+
+/* --------------------header part------------------- */
+.header{
+    width: 100%;
+    background-color:#3f475f;
+    height:55px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.header-logo{
+    margin-top: auto;
+    margin-bottom: auto;
+    background-color: yellow;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    height:40px;
+}
+.header-logo p {
+    margin-top: auto;
+    margin-bottom: auto;
+  
+}
+ 
+ 
+
+.header-search{
+    width: 30%;
+    /* background-color: aqua; */
+    display:flex;
+    justify-content: left;
+    align-items: center;
+}
+
+
+.header-search form {
+    width: 80%;
+    height: 32px;
+    display: flex;
+
+}
+
+.header-search input{
+    width: 100%;
+    height: 100%;
+    background-color: #2f3546;
+    border: none;
+    border-radius: 5px;
+
+}
+.header-search input::placeholder{
+    font-size: 15px;
+    text-align:left;
+    padding: 5px;
+
+}
+
+.header-search input:focus{
+    background-color: aliceblue;
+}
+
+.search-icon{
+    height: 100%;
+    width: 35px;
+    background-color: #2f3546;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    margin-left: 5px;
+    color: white;
+    border: none;
+    cursor: pointer;;
+}
+
+.search-icon:hover{
+    background-color: #489af1;
+}
+
+.header-user{
+    /* background-color:aliceblue; */
+    width:25%; 
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    color: white;
+}
+
+
+.header-user-ul{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    list-style: none;
+}
+
+.header-user-ul a {
+    color: white;
+  
+}
+.header-user-ul a:hover{
+  text-decoration:underline;
+
+}
+
+
+
+#alert{
+    position: absolute;
+    width:500px;
+    margin-right: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    right: 0;
+    top: 75vh;
+}

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box !important;
+        }
+
+
+        .main {
+
+            width: 90%;
+            height: 600px;
+            border: 1px solid black;
+            margin-left: auto;
+            margin-right: auto;
+            display: flex;
+            margin-top: 50px;
+            justify-content: space-around;
+        }
+
+        /* User part */
+        .user {
+            width: 200px;
+            height: 230px;
+            border: 1px solid black;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+
+        }
+
+        .user-image {
+            margin-left: auto;
+            margin-right: auto;
+            width: 190px;
+            height: 150px;
+        }
+
+        .user-info {
+            height: 50px;
+        }
+
+
+
+
+        /* list part */
+
+        .list {
+            border: 1px solid black;
+            height: 100px;
+            width: 100%;
+            display: flex;
+            margin-top: 30px;
+        }
+
+        .list-img {
+            width: 100px;
+            height: 100px;
+        }
+
+        .list-game {
+            width: 200px;
+            border: 1px solid black;
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .list-text {
+            text-align: center;
+            width: 600px;
+            height: 100px;
+            border: 1px solid black;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .list-header {
+            height: 20px;
+            overflow: hidden;
+        }
+
+        .list-expl {
+            height: 80;
+            overflow: hidden;
+        }
+
+        .list-price {
+            border: 1px solid black;
+            width: 100px;
+            text-align: center;
+        }
+
+        .list-date {
+            width: 100px;
+            border: 1px solid black;
+            text-align: center;
+        }
+
+        .list-a{
+            text-decoration: none;
+            color: black;
+        }
+       
+    </style>
+</head>
+
+<body>
+
+
+    <%- include('layout/header.ejs') %>
+
+
+        <div class="main">
+
+
+            <div class="user">
+                <img class="user-image" src="<%= products[0].user.profilePic %>">
+                <div class="user-info">
+                    <p>
+                        <%= products[0].user.username %>
+                    </p>
+                    <%if(chatLink) {%>
+                    <a href="<%= chatLink %>">mesaj gönder</a>
+                        <% }%>
+                </div>
+
+            </div>
+
+            <ul class="main-ul">
+
+                <% for(let i of products){%>
+                    <a class="list-a" href="/list/<%= i._id %>" >
+                        
+                  
+                    <li class="list" id="<%= i._id %>">
+
+                        <div>
+                            <img class="list-img" src="/uploads/<%= i.img1 %>">
+                        </div>
+                        <div class="list-game">
+                            <span class="list-gameName">Oyun: <%= i.gameName %></span>
+                            <span class="list-gameCategory">Category:<%= i.gameCategory %> </span>
+                        </div>
+                        <div class="list-text">
+                            <span class="list-header">Header: <%= i.gameHeader %> </span>
+                            <span class="list-expl">Explanation: <%= i.gameExpl %> </span>
+                        </div>
+                        <div class="list-price">
+                            <%= i.gamePrice %>
+                        </div>
+                        <div class="list-date">
+                            <%= i.createdAt %>
+                        </div>
+
+                    </li>
+                </a>
+                    <% }%>
+
+            </ul>
+
+
+
+
+
+        </div>
+
+        <script>
+       
+
+
+        </script>
+
+</body>
+
+</html>

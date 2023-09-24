@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <% if(payload){ %>
+        <p><%= payload.message %></p>
+        <% } %>
+
+
+    <form method="post">
+        <input type="hidden" name="_csrf"
+        value="<%= csrfToken %>">
+        <input name="email" type="email" value="murat28korkmaz@gmail.com">
+        <input name="password" type="password" value="Murat028.">
+        <input type="submit">
+
+    </form>
+    
+</body>
+</html>

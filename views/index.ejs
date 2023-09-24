@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    </link>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/index.css">
+
+</head>
+
+<body>
+
+    <%- include('layout/header.ejs') %>
+
+
+        <div class="body">
+
+            <div class="category">
+
+            </div>
+
+            <div class="showcase">
+
+
+                <% for(let j of lists){%>
+                <div class="showcase-list">
+                    <img src="/uploads/<%=j.img1 %>" class="list-image">
+                    <p class="list-text"><%= j.gameHeader %></p>
+                    <div class="list-info">
+                        <span><%= j.gamePrice %>$</span>
+                        <span><a href="/list/<%= j._id %>" class="a-tag" style="text-decoration: none;">Detay <i
+                                    class="fa fa-info-circle"></i></a></span>
+                    </div>
+                </div>
+            <% } %>
+           
+
+
+            </div>
+
+
+        </div>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", start);
+
+            let list = {
+                "metin2": {
+                    "servers": ["alnilam", "amber", "berilia", "columbia", "dolunay", "felis", "germania", "italy", "kehribar", "lynx", "portekiz", "pts", "şems", "tubul", "van", "all", "türkiye", "teutonia", "marmara", "anadolu", "arkadaşlar", "ayaz", "azrael", "bagjanamu", "bahar", "barbaros", "dandanakan", "ege", "ezel"],
+                    "categories": ["karakter", "yang-won", "silah", "zırh-kalkan-ayakkabı-kask", "küpe-bilezik-kolye", "nesne-market-ürünler", "simya", "diğer"]
+                },
+                "valorant": {
+                    "servers": ["valorant-tr", "valorant-euw"],
+                    "categories": ["Hesap", "Point"]
+                },
+                "League-Of-Legends": {
+                    "servers": ["League-Of-Legends TR", "League-Of-Legends-EUW", "League-Of-Legends-West"],
+                    "categories": ["Hesap", "Point"]
+                },
+            }
+
+
+            var category = document.querySelector(".category");
+
+
+            function start() {
+
+
+                Object.keys(list).forEach((game) => {
+
+
+                    let div = document.createElement("div");
+                    div.className = "category-part";
+                    //----------------
+                    let img = document.createElement("img");
+                    img.src = `img/${game}.png`;
+                    img.className = "category-part-img";
+                    //-----------
+                    let ul = document.createElement("ul");
+                    ul.className = "category-part-ul";
+                    //---------
+                    let mainLi = document.createElement("li")
+                    mainLi.className = "category-part-main";
+                    mainLi.style.color = "red";
+                    mainLi.innerHTML = `<a href="games/${game}" style="color:red">${game}</a>`;
+                    ul.append(mainLi);
+                    //-----------
+                    list[game]["categories"].forEach((cat) => {
+                        console.log(cat)
+                        let li = document.createElement("li")
+                        li.innerHTML = `<a href="games/${game}?category=${cat}">${cat}</a>`;
+                        ul.append(li);
+                    })
+
+                    div.append(img);
+                    div.append(ul);
+                    category.append(div);
+
+                })
+
+            }
+
+
+
+
+        </script>
+
+        <!-- <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script> -->
+
+</body>
+
+</html>

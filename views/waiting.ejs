@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            position: relative;
+
+        }
+
+        li {
+            list-style: none;
+        }
+
+        .main {
+            border: 1px solid black;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            width: 80%;
+        }
+
+        .main ul {
+            width: 100%;
+            height: 600px;
+        }
+
+        .list {
+            border: 1px solid black;
+            height: 100px;
+            width: 100%;
+            display: flex;
+            margin-top: 30px;
+        }
+
+        .list-img {
+            width: 100px;
+            height: 100px;
+        }
+
+        .list-game {
+            width: 200px;
+            border: 1px solid black;
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .list-text {
+            text-align: center;
+            width: 600px;
+            height: 100px;
+            border: 1px solid black;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .list-header {
+            height: 20px;
+            overflow: hidden;
+        }
+
+        .list-expl {
+            height: 80;
+            overflow: hidden;
+        }
+
+        .list-price {
+            border: 1px solid black;
+            width: 100px;
+            text-align: center;
+        }
+
+        .list-date {
+            width: 100px;
+            border: 1px solid black;
+            text-align: center;
+        }
+
+        .arrange {
+            text-align: center;
+        }
+
+        .drop {
+            width: 50px;
+            cursor: pointer;
+            font-size: 30px !important;
+        }
+
+
+        .alertDiv {
+            width: 50%;
+            position: absolute;
+            top: 50px;
+            left: 400px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+
+    <%- include('layout/header.ejs') %>
+
+        <div class="alertDiv" style="display: none">
+
+        </div>
+
+        <div class="main">
+            <ul class="main-ul">
+                <% for(let i of products){%>
+                    <li class="list" id="<%= i._id %>">
+                        <div>
+                            <img class="list-img" src="/uploads/<%= i.img1 %>">
+                        </div>
+                        <div class="list-game">
+                            <span class="list-gameName">Oyun:<%= i.gameName %></span>
+                            <span class="list-gameCategory">Category:<%= i.gameCategory %></span>
+                        </div>
+                        <div class="list-text">
+                            <span class="list-header">Header:<%= i.gameHeader %></span>
+                            <span class="list-expl">Explanation:<%= i.gameExpl %> </span>
+                        </div>
+                        <div class="list-price">
+                            <%= i.gamePrice %>$
+                        </div>
+                        <div class="list-date">
+                            <%= i.createdAt %>
+                        </div>
+                        <div class="arrange">
+                            <div class="dropdown">
+                                <i class="fa fa-ellipsis-h drop" data-bs-toggle="dropdown"></i>
+                                <ul class="dropdown-menu" style="height: 80px;">
+                                    <li><a data-no="<%= i._id %>" class="dropdown-item confirmList"
+                                            style="cursor: pointer;"> İlanı onayla</a></li>
+                                    <li><a data-no="<%= i._id %>" class="dropdown-item cancelList "
+                                            style="cursor: pointer;"> İptal et</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                    <% }%>
+            </ul>
+
+        </div>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+
+        <script>
+
+
+            var alertDiv = document.querySelector(".alertDiv");
+
+            var mainUl=document.querySelector(".main-ul");
+
+
+            document.querySelectorAll(".confirmList").forEach((el) => {
+
+
+                el.addEventListener("click", confirmList);
+            })
+            document.querySelectorAll(".cancelList").forEach((el) => {
+                el.addEventListener("click", cancelList);
+            })
+
+            function confirmList(e) {
+                var listNo = e.target.dataset.no
+
+                $.ajax({
+                    url: "/list/buyer/confirm/" + listNo,
+                    method: "PATCH",
+                    success: function (result) {
+
+                        let div = document.createElement("div");
+                        div.className = "alert alert-success";
+                        div.innerHTML = "işlem tamamlandı  ...";
+                        alertDiv.appendChild(div);
+                        alertDiv.style.display = "block";
+                        setTimeout(() => {
+                            alertDiv.style.display = "none";
+                            alertDiv.innerHTML = "";
+                            window.location.href = "http://localhost:3000/myList/purchase"
+                        }, 2000)
+
+
+                    },
+                    error: function (err) {
+                        let div = document.createElement("div");
+                        div.className = "alert alert danger";
+                        div.innerHTML = "Hata oluştu ...";
+                        alertDiv.appendChild(div);
+                        alertDiv.style.display = "block";
+                        setTimeout(() => {
+                            alertDiv.style.display = "none";
+                            alertDiv.innerHTML = "";
+                        }, 1000);
+                    }
+                })
+
+            }
+
+
+            function cancelList(e) {
+                var listNo = e.target.dataset.no;
+
+
+                $.ajax({
+                    url: "/list/buyer/cancel/" + listNo,
+                    method: "PATCH",
+                    success: function (result) {
+                        let div = document.createElement("div");
+                        div.className = "alert alert-success";
+                        div.innerHTML = "işlem inceleme altına alındı en kısa sürede size ulaşacağız...";
+                        var li=document.getElementById(`${listNo}`);
+                        mainUl.removeChild(li);
+                        alertDiv.appendChild(div);
+                        alertDiv.style.display = "block";
+                        setTimeout(() => {
+                            alertDiv.style.display = "none";
+                            alertDiv.innerHTML = "";
+                        }, 2000)
+
+                        var li=document.getElementById(`${listNo}`);
+                        mainUl.removeChild(li);
+
+
+
+                    },
+                    error: function (err) {
+                        let div = document.createElement("div");
+                        div.className = "alert alert danger";
+                        div.innerHTML = "Hata oluştu ...";
+                        alertDiv.appendChild(div);
+                        alertDiv.style.display = "block";
+                        
+                        setTimeout(()=>{
+                            alertDiv.style.display="none";
+                            alertDiv.innerHTML="";
+                        },1000);
+
+
+
+                    }
+                })
+
+            }
+
+
+
+
+        </script>
+
+</body>
+
+</html>

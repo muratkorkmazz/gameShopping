@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/header.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+
+
+
+
+
+    <div class="header">
+        <div class="header-logo">
+            <a href="/" style="text-decoration: none;">
+                <p class="oyundanText"> oyundan.com</p>
+            </a>
+
+        </div>
+        <div class="header-search">
+            <form>
+                <input type="text" placeholder="Oyun ara ...">
+                <button type="submit" class="search-icon"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+        <div class="header-user">
+            <ul class="header-user-ul">
+                <% if(payload){ %>
+                    <li><a href="/login">
+                            <%= payload.username%>
+                        </a>
+                        <a href="/chat" style="text-decoration: none;"><i style="margin-left: 20px;"
+                                class="fa fa-envelope-o"></i><span id="messageCount">
+                                <%= notifications %>
+                            </span></a>
+                    </li>
+                    <li class="dropdown">
+                        <button style="font-size: 10px;" class="btn btn-secondary dropdown-toggle" type="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-dark">
+                            <li><a class="dropdown-item active" href="http://localhost:3000/myList">ilanlarım</a></li>
+                            <li><a class="dropdown-item" href="http://localhost:3000/myList/purchase">alım işlemlerim</a></li>
+                            <li><a class="dropdown-item" href="http://localhost:3000/myList/selling">satış işlemlerim</a></li>
+                            <li><a class="dropdown-item" href="http://localhost:3000/myList/waiting/alis">Bekleyen işlemlerim(alış)!!!</a></li>
+                            <li><a class="dropdown-item" href="http://localhost:3000/myList/waiting/satis">Bekleyen işlemlerim(satış) !!!</a></li>
+                            <li><a class="dropdown-item" href="http://localhost:3000/myAccount">Hesap bilgilerim</a></li>
+                            <li><a class="dropdown-item" href="http://localhost:3000/logout">Çıkış Yap</a></li>
+                            <!-- <li>
+                                <hr class="dropdown-divider">
+                            </li> -->
+                            <!-- <li><a class="dropdown-item" href="#">Separated link</a></li> -->
+                        </ul>
+                    </li>
+
+                    <li><a href="/ilan-ver">İlan ver</a></li>
+                    <% } else {%>
+                        <li><a href="/ilan-ver">İlan ver</a></li>
+                        <li><a href="/login">Giriş yap</a></li>
+                        <li><a href="/register">Üye ol</a></li>
+                        <% } %>
+
+            </ul>
+        </div>
+    </div>
+
+    <div style="display: none;" class="alert alert-success" id="alert" role="alert">
+        
+      </div>
+
+
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+
+    <% if(payload) {%>
+
+        <script>
+            var connected = false;
+            var userS = '<%- JSON.stringify(payload) %>'
+            var user = JSON.parse(userS);
+
+            const socket = io("http://localhost:3000/");
+
+
+            socket.emit("setup", user);
+
+            socket.on("connected", () => {
+                connected = true;
+            })
+
+
+
+            socket.on("new message", (message) => {
+
+
+                var chat = document.querySelector(".messages");
+
+
+
+                //if it's already in chat rooom
+                if (chat && message.chatNo == chat.dataset.chat) {
+                    var li = document.createElement("li");
+                    li.className = "li-1";
+                    li.innerHTML = `<strong>${message.content}</strong>`;
+                    document.querySelector(".messages-ul").append(li);
+
+                    console.log(message);
+
+
+                    // make the notifications opened...
+                    $.ajax({
+                        url: "/chat/notification/" + message._id,
+                        type: 'PATCH',
+                        success: function (result) {
+                            // Do something with the result
+                            console.log(result);
+                        }
+                    });
+                    scrollToBottom();
+                }
+
+                else {
+
+                    var alert=document.getElementById("alert");
+                    alert.innerHTML=`new message :${message.content}`;
+                    alert.style.display="block";
+
+                    setTimeout(()=>{
+                        alert.style.display="none";
+                    },2000)
+
+                    if (window.location.pathname == "/chat") {
+                        var sp = document.querySelector(`.no-${message.chatNo}`);
+                        let count = Number(sp.innerHTML) + 1;
+                        sp.innerHTML = `${count}`;
+                    }
+
+                    var span = document.getElementById("messageCount");
+                    var count = Number(span.innerHTML);
+                    count = count + 1;
+                    span.innerHTML = count;
+                }
+
+
+
+            })
+
+
+          
+
+        </script>
+        <% }%>
+
+
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+                crossorigin="anonymous"></script>
+
+</body>
+
+</html>

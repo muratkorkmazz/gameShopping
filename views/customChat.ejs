@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+<style>
+
+    li{
+        list-style: none;
+    }
+
+    *{
+        padding: 0px;
+        margin: 0px;
+        box-sizing: border-box;
+    }
+
+    .container{
+        display: flex;
+        flex-direction: column;
+        /* border: 1px solid black; */
+         margin-left: auto;
+        margin-right: auto;
+        width: 75%;
+        /* height: 800px; */
+        margin-top: 20px;
+    }
+
+    .user-info{
+        width: 50%;
+        height: 70px;
+        text-align: center;
+        border: 1px solid black;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .messages-ul{
+        margin-top: 20px;
+        height:500px;
+        display: flex;
+        overflow-y: auto;  
+        flex-direction:column;
+        border: 1px solid black;
+        padding-top: 15px;
+        padding-bottom: 15px;
+        
+    }
+
+    .li-1{
+        margin-top: 5px;
+        margin-bottom: 5px;
+        border: 2px solid #3f475f;
+        margin-left: 0px;
+        width: 40%;
+        height: 30px;
+        text-align: center;
+        border-radius: 10px;
+    /* color: aliceblue; */
+    }
+    .li-2{
+        margin-bottom: 5px;
+        margin-top: 5px;
+        height: 40px;
+        text-align: center;
+        border: 2px solid #3f475f;
+        border-radius: 5px;
+        width: 40%;
+        margin-left: 50%;
+
+
+    }
+
+
+    
+    .sendMessage{
+        height: 40px;
+        width: 75%;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+    }
+
+    .sendInput{
+        width: 50%;
+        height: 30px;
+    }
+
+    .sendButton{
+        width: 50px;
+    }
+
+    .typing{
+        height: 30px;
+        width: 20px;
+    }
+
+    .user-info-part{
+
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+    }
+
+</style>
+
+</head>
+<body>
+
+    <%- include('layout/header.ejs') %>
+
+
+        <div class="container">
+                <div class="user-info">
+                    <div class="user-info-part">
+                        <img src="<%=  chat.users[0].profilePic  %>" style="width: 60px; height: 60px;border-radius: 5px;">
+                        User : <strong><%= chat.users[0].username %></strong>
+                       
+                          
+                    <span id="typing" style="display: none;">Yazıyor<img  class="typing" src="/img/dots.gif"></span>
+                    </div>
+                
+                  
+                </div>
+
+                <div class="messages" data-chat="<%= chat._id %>">
+                    <ul class="messages-ul">
+                        <% for(let i of messages){ %>
+                            <% if(i.sender == payload._id){ %>
+                                <li class="li-2"><strong><%= i.content %></strong></li>
+                                <% }else{%>
+                        <li class="li-1"><strong><%= i.content %></strong></li>
+                       <%}%>
+                        <% } %>
+                    </ul>
+                </div>
+
+                <form class="sendMessage" method="post">
+                    <input type="text" name="message" class="sendInput">
+                    <button class="sendButton" type="submit"><i class="fa fa-send"></i></button>
+                </form>
+
+        </div> 
+ 
+
+
+
+        <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+
+
+
+<script>
+
+
+var messageContainer=document.querySelector(".messages");
+// --------------------- Socket---------------------
+    
+// var userS= '<%- JSON.stringify(payload) %>'
+var chatS= '<%- JSON.stringify(chat) %>'
+// var user=JSON.parse(userS);
+var chat=JSON.parse(chatS);
+
+
+socket.emit("join room",{no:messageContainer.dataset.chat,user:user._id});
+
+ var typingSpan=document.getElementById("typing");
+
+socket.on("typing",()=>{
+
+    typingSpan.style.display="block";
+
+})
+
+socket.on("stop typing",()=>{
+
+    typingSpan.style.display="none";
+
+})
+
+//----------------------- sending message---------------------------
+            document.querySelector(".sendMessage").addEventListener("submit",sendMessage);
+
+            var input=document.querySelector(".sendInput");
+
+
+
+            // typing functionality
+
+             var typing=false;
+             var lastTyping;
+            input.addEventListener("keydown",(e)=>{
+
+                if(!typing){
+                socket.emit("typing",messageContainer.dataset.chat);
+                typing =true;
+                }
+
+                 lastTyping=new Date().getTime();
+            
+               var interval=3000;
+                 
+              setTimeout(()=>{
+                var currentTime=new Date().getTime();
+                 var diff=currentTime-lastTyping;
+
+                 if(diff >= interval && typing){
+                    typing=false;
+                    socket.emit("stop typing",messageContainer.dataset.chat);
+                 }
+              },interval);
+
+            })
+
+           
+
+            function sendMessage(e){
+
+                e.preventDefault();
+                typing=false;
+                socket.emit("stop typing",messageContainer.dataset.chat);
+                var content=input.value;
+                input.value="";
+                var chatNo=messageContainer.dataset.chat;
+
+
+                $.post("/chat/"+chatNo,{
+                    content:content
+                },function(data){
+                     console.log(data);
+                    if(data.status !="success"){
+
+                        return alert("message couldn't be sent");
+                    }
+
+                    
+                    var li=document.createElement("li");
+                   li.className="li-2";
+                   li.innerHTML=`<strong>${content}</strong>`;
+                   document.querySelector(".messages-ul").append(li)
+                   scrollToBottom();
+                    if(connected){
+                        socket.emit("new message",{userToSend:chat.users[0]._id,content:data.message.content,chatNo:data.message.chat,_id:data.message._id});
+                    }
+                 
+                })
+            }
+
+   
+
+            scrollToBottom();
+
+ function scrollToBottom(animated){
+    var container=document.querySelector(".messages-ul");
+    container.scrollTop=container.scrollHeight;
+ }
+
+         
+  
+
+            
+</script> 
+
+
+</body>
+</html>

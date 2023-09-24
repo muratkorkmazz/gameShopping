@@ -1,0 +1,153 @@
+*{
+    margin: 0;
+    padding: 0;
+
+}
+
+.a-tag{
+    text-decoration: none;
+    /* text-decoration-color:; */
+}
+
+.oyundanText{
+    font-size: 25px;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-weight: bold;
+    color: black;
+}
+
+body{
+background-color:whitesmoke
+}
+
+
+
+/* -------------- body part--------------------  */
+
+.body{
+    margin-top: 20px;
+    width: 85%;
+    /* border: 1px solid black; */
+    /* height: 600px; */
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+}
+
+/* ---------category part---------------- */
+.category{
+    height: 100%;
+    width: 25%;
+    display: block;
+    justify-content: space-around;
+    /* border: 1px solid black; */
+}
+
+.category-part{
+    /* margin-top: 10px; */
+    /* border: 1px solid black; */
+    padding: 2px;
+    width: 100%;
+    /* height: 180px; */
+        border-top: 1px solid grey;
+    /* border: 1px solid black; */
+    display: flex;
+    justify-content: left;
+    
+}
+
+.category-part-ul{
+    
+    margin-left: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content:flex-start;
+}
+.category-part-main{
+    color: red;
+}
+.category-part-ul li {
+    width: 100%;
+    /* height: 50px; */
+    display: flex;
+    align-items: center;
+    /* margin-bottom: 10px; */
+ 
+    list-style: none;
+    color: blue;
+}
+
+
+.category-part-img{
+    width: 30px;
+    height: 30px;
+    border-radius: 30px;
+}
+
+
+
+/* --------------showcase------------------- */
+
+
+.showcase{
+    margin-top: 10px;
+    width: 100%;
+    /* border: 1px solid black; */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    
+}
+
+
+.showcase-list{
+    width: 220px;
+    height: 220px;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 30px;
+}
+
+.list-image{
+    width: 100%;
+    height: 150px;
+    border: 1px solid black;
+}
+
+.list-text{
+    /* border: 1px solid red; */
+    height: 50px;
+    width: 100%;
+    overflow: hidden;
+}
+
+.list-info{
+display: flex;
+justify-content: space-around;
+align-items: center;
+margin-bottom: 5px;
+/* border: 1px solid black; */
+/* height: 40px; */
+}
+.list-info span{
+    padding: 5px;
+    height: 100%;
+    height:25px;
+    border: 2px solid #489af1  ;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.list-info span:hover{
+
+    border: 2px solid black  ;
+    background-color:  #489af1 ;
+
+}
+
+
+/* -----------------foooter----------------- */
+

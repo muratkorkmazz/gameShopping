@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+
+
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        li {
+            list-style: none;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 90%;
+            height: 600px;
+            border: 1px solid black;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 20px;
+        }
+
+        .chat-user {
+            width: 50%;
+            height: 600px;
+            overflow-y: auto;
+          
+        }
+
+        .users-ul {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            overflow-y: auto;
+        }
+
+        .users-li {
+            margin-top: 20px;
+            border: 1px solid black;
+            height: 60px;
+        }
+
+        .toChat{
+            width: 100%;
+            height: 100%;
+        }
+        
+        .userImg{
+            width: 50px;
+            height: 50px;
+        }
+      
+    </style>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+</head>
+
+<body>
+
+
+    <%- include('layout/header.ejs') %>
+
+        <div class="container">
+
+            
+        <h1>Inbox</h1>
+            <div class="chat-user">
+                <ul class="users-ul">
+                    <% for( let i of chats) { %>
+                        <li   class="users-li">
+                            <!-- <img class="userImg" src="/img/<%= i.users[0].profilePic %>"> -->
+                           <a class="toChat" href="/chat/<%= i.users[0].username %>"> <%= i.users[0].username %></a>
+                           <span style="color: red;"><span  class="no-<%= i._id %>">0</span>yeni mesaj</span>
+                           <% if( i.latestMessage ){ %>
+                            <p> <%= i.latestMessage.content %></p>
+                           <% } %>
+                        </li>
+                        <% } %>
+                </ul>
+            </div>
+
+
+
+
+        </div>
+
+
+        
+        <script>
+
+
+ 
+
+var chatsS= '<%- JSON.stringify(chats) %>'
+var userS= '<%- JSON.stringify(payload) %>'
+var user=JSON.parse(userS);
+var chats=JSON.parse(chatsS);
+
+for(let i=0;i<chats.length;i++){
+
+    let id=chats[i]._id;
+
+    $.get(`/chat/notification/${id}/${user._id}`,function(data){
+
+      
+        if(data.status !="success"){
+            return alert("error occured");
+        }
+
+        var sp=document.querySelector(`.no-${chats[i]._id}`);
+        if(sp){
+            sp.innerHTML=`${data.count}`;
+        }
+    })
+
+}
+
+
+        </script>
+
+
+
+</body>
+
+</html>

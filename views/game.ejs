@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous"> -->
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .main {
+            width: 100%;
+            display: flex;
+            justify-content: space-between
+        }
+
+        /* -------------filter */
+        .filter {
+            width: 25%;
+            height: 600px;
+            display: flex;
+            justify-content: center;
+
+        }
+
+        #filterForm {
+            display: block;
+            justify-content: space-around;
+            width: 75%;
+            border: 1px solid black;
+
+        }
+
+        .form-select {
+            margin-top: 40px;
+
+        }
+
+        /* -------------------games */
+        .games {
+            width: 70%;
+            height: 600px;
+
+        }
+
+        /* -------order */
+        #order {
+
+            display: flex;
+            justify-content: flex-end;
+            padding: 5px;
+        }
+
+        #orderSelect {
+            width: 200px;
+        }
+
+        /* ----------lists */
+
+        .showcase {
+            width: 100%;
+            border: 1px solid black;
+            padding: 10px;
+        }
+
+        .list {
+            border: 1px solid black;
+            display: flex;
+            height: 100px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+
+        .list-img img {
+            width: 120px;
+            height: 100px;
+        }
+
+        .list-expl {
+            text-align: center;
+            width: 50%;
+            border: 1px solid black;
+        }
+
+        .list-price {
+            text-align: center;
+            width: 20%;
+            border: 1px solid black;
+        }
+
+        .list-date {
+            border: 1px solid black;
+        }
+    </style>
+
+
+
+
+
+
+
+</head>
+
+<body>
+
+
+    <%- include('layout/header.ejs') %>
+
+
+        <div class="main">
+            <div class="filter">
+
+                <form id="filterForm">
+                    <select name="server" class="form-select" aria-label="Default select example">
+                        <option value="">Tümü</option>
+                        <% for(let j of gameList["servers"]) { %>
+                            <option class="s-<%= j %>" value="<%= j %>">
+                                <%= j %>
+                            </option>
+                            <%}%>
+                    </select>
+
+                    <select name="category" class="form-select" aria-label="Default select example">
+                        <option value="">Tümü</option>
+                        <% for(let a of gameList["categories"]) { %>
+                            <option class="c-<%= a %>" value="<%= a %>">
+                                <%= a %>
+                            </option>
+                            <%}%>
+                    </select>
+                    <select name="order" id="orderSelect" aria-label="Default select example" style="margin-top: 30px;">
+                        <option value="">Gelişmiş Sıralama</option>
+                        <option class="o-1" value="1">Fiyata göre(AZALAN)</option>
+                        <option class="o-2" value="2">Fiyata göre(ARTAN)</option>
+                        <option class="o-3" value="3">İlan tarihine göre(Yeniden Eskiye)</option>
+                        <option class="o-4" value="4">İlan tarihine göre(Eskiden Yeniye)</option>
+                    </select>
+                    <div style="margin-top: 30px;;">
+                        <button id="submitImg" data-number="" type="submit" class="btn btn-secondary mt-3"
+                            data-bs-dismiss="modal">Ara</button>
+                    </div>
+
+
+                </form>
+            </div>
+            <div class="games">
+
+                <div id="order">
+                    <!-- <form id="orderForm">
+                    <select  name="order" id="orderSelect" aria-label="Default select example">
+                        <option value="" selected>Gelişmiş Sıralama</option>
+                        <option value="1">Fiyata göre(AZALAN)</option>
+                        <option value="2">Fiyata göre(ARTAN)</option>
+                        <option value="3">İlan tarihine göre(Yeniden Eskiye)</option>
+                        <option value="3">İlan tarihine göre(Eskiden Yeniye)</option>
+                    </select>
+                </form> -->
+                </div>
+
+                <div class="showcase">
+
+                    <% for(let i of products){ %>
+
+                        <a href="/list/<%= i._id %>" class="list" style="text-decoration: none; color: black;">
+                            <!-- <a href="/<%= i._id %>" style="text-decoration: none;"> -->
+                            <div class="list-img">
+                                <img src="/uploads/<%= i.img1 %>">
+                            </div>
+                            <div class="list-expl">
+                                <p>
+                                    <%= i.gameHeader %>
+                                </p>
+                                <p>
+                                    <%= i.gameExpl%>
+                                </p>
+                            </div>
+                            <div class="list-price">
+                                <p>
+                                    <%= i.gamePrice %>
+                                </p>
+                            </div>
+                            <div class="list-date">
+                                <p>
+                                    <%= i.createdAt %>
+                                </p>
+                            </div>
+
+                        </a>
+                        <%}%>
+                </div>
+            </div>
+        </div>
+
+        <script>
+
+            var queries = '<%- JSON.stringify(queries) %>'
+            queries = JSON.parse(queries);
+            if (queries.server) {
+                let o = document.querySelector(`.s-${queries.server}`);
+                o.selected = true;
+            }
+            if (queries.category) {
+                let o = document.querySelector(`.c-${queries.category}`);
+                o.selected = true;
+            }
+            if (queries.order) {
+                let o = document.querySelector(`.o-${queries.order}`);
+                o.selected = true;
+            }
+
+            let list = {
+                "metin2": {
+                    "servers": ["alnilam", "amber", "berilia", "columbia", "dolunay", "felis", "germania", "italy", "kehribar", "lynx", "portekiz", "pts", "şems", "tubul", "van", "all", "türkiye", "teutonia", "marmara", "anadolu", "arkadaşlar", "ayaz", "azrael", "bagjanamu", "bahar", "barbaros", "dandanakan", "ege", "ezel"],
+                    "categories": ["karakter", "yang-won", "silah", "zırh-kalkan-ayakkabı-kask", "küpe-bilezik-kolye", "nesne-market-ürünler", "simya", "diğer"]
+                },
+                "valorant": {
+                    "servers": ["valorant-tr", "valorant-euw"],
+                    "categories": ["Hesap", "Point"]
+                },
+                "League-Of-Legends": {
+                    "servers": ["League-Of-Legends TR", "League-Of-Legends-EUW", "League-Of-Legends-West"],
+                    "categories": ["Hesap", "Point"]
+                },
+            }
+
+
+
+
+
+
+        </script>
+
+</body>
+
+</html>

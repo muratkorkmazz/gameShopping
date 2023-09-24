@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+
+
+
+    <style>
+        li {
+            list-style: none;
+            font-size: large;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        }
+
+        .mainContainer {
+            margin-top: 20px;
+            width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+            /* border: 1px solid black; */
+            height: 600px;
+        }
+
+        .expl {
+            text-align: center;
+            font-size: large;
+            font-weight: 500;
+            height: 30px;
+            margin-left: auto;
+            margin-right: auto;
+            width: 50%;
+            border-bottom: 1px solid black;
+            overflow: hidden;
+        }
+
+        .list-container {
+            display: flex;
+        }
+
+
+
+        .imagePart {
+            width: 50%;
+            padding: 5px;
+        }
+
+
+        .main-img {
+            width: 400px;
+            height: 400px;
+        }
+
+        .sub-img-container {
+            margin-top: 30px;
+            display: flex;
+            width: 50%;
+            justify-content: space-around;
+        }
+
+        .sub-img {
+            cursor: pointer;
+            width: 80px;
+            height: 80px;
+        }
+
+        /* ---------------------------list------------------------------------         */
+        .list-info {
+            border-left: 2px solid black;
+            width: 50%;
+            height: 500px;
+
+        }
+
+        .list-info-ul li {
+            border-bottom: 1px solid black;
+        }
+
+
+        .user-info {
+            text-align: center;
+            width: 300px;
+            border: 1px solid black;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .list-pay{
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 50px;
+            width: 400px;
+            /* border:1px solid black; */
+            text-align: center;
+        }
+
+        /* --------------------------------------- */
+
+        .container {
+     
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-flow: column;
+            padding-bottom: 60px;
+        }
+
+        .container form {
+            background: #fff;
+            border-radius: 5px;
+            box-shadow: 0 10px 15px rgba(0, 0, 0, .1);
+            padding: 20px;
+            width: 600px;
+            padding-top: 160px;
+        }
+
+        .container form .inputBox {
+            margin-top: 20px;
+        }
+
+        .container form .inputBox span {
+            display: block;
+            color: #999;
+            padding-bottom: 5px;
+        }
+
+        .container form .inputBox input,
+        .container form .inputBox select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid rgba(0, 0, 0, .3);
+            color: #444;
+        }
+
+        .container form .flexbox {
+            display: flex;
+            gap: 15px;
+        }
+
+        .container form .flexbox .inputBox {
+            flex: 1 1 150px;
+        }
+
+        .container form .submit-btn {
+            width: 100%;
+            /* background: linear-gradient(45deg, blueviolet, deeppink); */
+            background-color: yellow;
+            margin-top: 20px;
+            padding: 10px;
+            font-size: 20px;
+            color: #3f475f;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: .2s linear;
+        }
+
+        .container form .submit-btn:hover {
+            letter-spacing: 2px;
+            opacity: .8;
+        }
+
+        .container .card-container {
+            margin-bottom: -150px;
+            position: relative;
+            height: 250px;
+            width: 400px;
+        }
+
+        .container .card-container .front {
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            top: 0;
+            left: 0;
+            /* background:linear-gradient(45deg,#3f475f ); */
+            background-color: #3f475f;
+            border-radius: 5px;
+            backface-visibility: hidden;
+            box-shadow: 0 15px 25px rgba(0, 0, 0, .2);
+            padding: 20px;
+            transform: perspective(1000px) rotateY(0deg);
+            transition: transform .4s ease-out;
+        }
+
+        .container .card-container .front .image {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 10px;
+        }
+
+        .container .card-container .front .image img {
+            height: 50px;
+        }
+
+        .container .card-container .front .card-number-box {
+            padding: 30px 0;
+            font-size: 22px;
+            color: #fff;
+        }
+
+        .container .card-container .front .flexbox {
+            display: flex;
+        }
+
+        .container .card-container .front .flexbox .box:nth-child(1) {
+            margin-right: auto;
+        }
+
+        .container .card-container .front .flexbox .box {
+            font-size: 15px;
+            color: #fff;
+        }
+
+        .container .card-container .back {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            /* background: linear-gradient(45deg, blueviolet, deeppink); */
+            background-color: #3f475f;
+            border-radius: 5px;
+            padding: 20px 0;
+            text-align: right;
+            backface-visibility: hidden;
+            box-shadow: 0 15px 25px rgba(0, 0, 0, .2);
+            transform: perspective(1000px) rotateY(180deg);
+            transition: transform .4s ease-out;
+        }
+
+        .container .card-container .back .stripe {
+            background: #000;
+            width: 100%;
+            margin: 10px 0;
+            height: 50px;
+        }
+
+        .container .card-container .back .box {
+            padding: 0 20px;
+        }
+
+        .container .card-container .back .box span {
+            color: #fff;
+            font-size: 15px;
+        }
+
+        .container .card-container .back .box .cvv-box {
+            height: 50px;
+            padding: 10px;
+            margin-top: 5px;
+            color: #333;
+            background: #fff;
+            border-radius: 5px;
+            width: 100%;
+        }
+
+        .container .card-container .back .box img {
+            margin-top: 30px;
+            height: 30px;
+        }
+    </style>
+
+</head>
+
+<body>
+    <%- include('layout/header.ejs') %>
+
+
+
+
+        <div class="mainContainer" data-listid="<%= list._id %>">
+            <div class="expl">
+                <%= list.gameHeader %>
+            </div>
+            <div class="list-container">
+
+
+
+                <div class="imagePart">
+                    <img class="main-img" src="/uploads/<%= list.img1%>">
+                    <div class="sub-img-container">
+                        <img class="sub-img" src="/uploads/<%= list.img1 %>">
+                        <img class="sub-img" src="/uploads/<%= list.img2 %>">
+                    </div>
+                </div>
+                <div class="list-info">
+                    <div>
+                        <ul class="list-info-ul">
+                            <li>Game: <%= list.gameName %>
+                            </li>
+                            <li>Server: <%= list.gameServer %>
+                            </li>
+                            <li>Price:<%= list.gamePrice %>$</li>
+                            <li>Tarih:<%= list.createdAt%>
+                            </li>
+                            <li>Açıklama:<%= list.gameExpl%>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="user-info">
+                        <ul>
+                            <li>-<%= list.user.username %>-</li>
+                            <li><a href="/profile/<%= list.user.username %>">Tüm ilanları</a></li> 
+                            <% if(chatLink){ %>
+                                <li><a href="<%= chatLink %>">Mesaj gönder</a></li>
+                                <% } %>
+                    
+                        </ul>
+                    </div>
+
+                    <div class="list-pay">
+
+                        <!-- <button id="pay-button">---Pay---</button>     -->
+
+                        <%if(chatLink){ %>
+                        <button id="pay-button" style="width: 200px; border: 1px  solid #000; " type="button" class="btn btn-info">Satın al <%= list.gamePrice %>TL</button>
+
+                        <% }%>
+                    </div>
+                      
+                </div>
+
+            </div>
+        </div>
+
+      
+
+        <!-- Button trigger modal -->
+        <button id="modalButton" type="button" class="btn btn-primary" data-bs-toggle="modal"
+            data-bs-target="#exampleModal" style="display: none;">
+            Launch demo modal
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+            <div class="modal-dialog" >
+                <div class="modal-content" style="width: 600px;height: 400px;">
+                    <!-- <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div> -->
+
+        <div class="modal-body">
+
+
+            <div class="container">
+                <div id="alerts" class="alert alert-success" role="alert" style="display: none;">
+                    Satın alındı !
+                  </div>
+
+                  <div id="alerte" class="alert alert-danger" role="alert" style="display: none;">
+                    A simple danger alert—check it out!
+                  </div>
+                <div class="card-container">
+    
+                    <div class="front">
+                        <div class="image">
+                            <img src="/img/chip.png" alt="">
+                            <img src="/img/visa.png" alt="">
+                        </div>
+                        <div class="card-number-box">################</div>
+                        <div class="flexbox">
+                            <div class="box">
+                                <span>card holder</span>
+                                <div class="card-holder-name">full name</div>
+                            </div>
+                            <div class="box">
+                                <span>expires</span>
+                                <div class="expiration">
+                                    <span class="exp-month">mm</span>
+                                    <span class="exp-year">yy</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <div class="back">
+                        <div class="stripe"></div>
+                        <div class="box">
+                            <span>cvv</span>
+                            <div class="cvv-box"></div>
+                            <img src="/img/visa.png" alt="">
+                        </div>
+                    </div>
+    
+                </div>
+    
+                <form id="purchaseForm" action="">
+                    <div class="inputBox">
+                        <span>card number</span>
+                        <input value="5528790000000008" id="cardNumber" type="text" maxlength="16" class="card-number-input">
+                    </div>
+                    <div class="inputBox">
+                        <span>card holder</span>
+                        <input value="John Doe" id="cardHolder" type="text" class="card-holder-input">
+                    </div>
+                    <div class="flexbox">
+                        <div class="inputBox">
+                            <span>expiration mm</span>
+                            <select value="12" name="" id="cardMonth" class="month-input">
+                                <option value="month" selected disabled>month</option>
+                                <option value="01">01</option>
+                                <option value="02">02</option>
+                                <option value="03">03</option>
+                                <option value="04">04</option>
+                                <option value="05">05</option>
+                                <option value="06">06</option>
+                                <option value="07">07</option>
+                                <option value="08">08</option>
+                                <option value="09">09</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                            </select>
+                        </div>
+                        <div class="inputBox">
+                            <span>expiration yy</span>
+                            <select value="30" name="" id="cardYear" class="year-input">
+                                <option value="year" selected disabled>year</option>
+                                <option value="21">21</option>
+                                <option value="22">22</option>
+                                <option value="23">23</option>
+                                <option value="24">24</option>
+                                <option value="25">25</option>
+                                <option value="26">26</option>
+                                <option value="27">27</option>
+                                <option value="28">28</option>
+                                <option value="29">29</option>
+                                <option value="30">30</option>
+                            </select>
+                        </div>
+                        <div class="inputBox">
+                            <span>cvv</span>
+                            <input value="123" id="cardCvv" type="text" maxlength="4" class="cvv-input">
+                        </div>
+                    </div>
+                    <input type="submit" value="submit" class="submit-btn">
+                </form>
+    
+            </div>
+    
+
+        </div>
+        
+
+
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <script  src="/js/purchase.js"></script>
+</body>
+
+</html>
