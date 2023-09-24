@@ -16,8 +16,11 @@ As this project has not finished yet , there are a few thing to be completed (Th
 4-)For now , the images uploaded by clients are stored in the our server. It will be replaced with Amazon Cloud Services.
     
 As e-mail server has not finished yet , people can’t register to the application. So you can login via 2 test account specified in below. You can send messages between these 2 account concurrently, publish lists and more...
+
 test users:
+
 1-)username:test111, password:test1234
+
 2-)username:test222,password:test1234
 
 In order to raise up the application, clone the repository and execute "npm start" command. 
