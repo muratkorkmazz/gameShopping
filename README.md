@@ -5,7 +5,7 @@ This is a project allowing people to buy and sell game accounts.People wanting t
 
 The project has been created by a range of technologies. The technologies having used are Ejs,Css, Javascript, Node.js, Mongo.db,Rest Api.
 
-As this project has not finished yet , there are a few thing to be completed (These are explained below ).
+As this project has not finished yet , there are a few things to be completed (These are explained below ).
 
 1-) Sending email to verify account  is executed through test-email app(Mailtrap) for development purpose. 
 
